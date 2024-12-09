@@ -66,11 +66,11 @@ Authorization: Bearer <token>
 
 ## Vulnerabilities to Explore
 
-    JWT Signature Verification: The app decodes the token without verifying its signature using jwt.decode(). This vulnerability allows attackers to tamper with the payload and change data like user roles without invalidating the token.
+- JWT Signature Verification: The app decodes the token without verifying its signature using jwt.decode(). This vulnerability allows attackers to tamper with the payload and change data like user roles without invalidating the token.
 
-    Role Escalation: By manipulating the role in the JWT payload (e.g., changing the role from user to admin), attackers can access restricted routes (such as /admin) without proper authorization.
+- Role Escalation: By manipulating the role in the JWT payload (e.g., changing the role from user to admin), attackers can access restricted routes (such as /admin) without proper authorization.
 
-    Insecure Role-Based Access Control: The app uses role checks but relies on client-supplied data (JWT payload) for authorization, making it susceptible to attacks.
+- Insecure Role-Based Access Control: The app uses role checks but relies on client-supplied data (JWT payload) for authorization, making it susceptible to attacks.
 
 ## Installation and Setup
 
@@ -98,9 +98,9 @@ SECRET_KEY=your_secret_key
 
 ## Objectives
 
-    Identify JWT-related security flaws: Understand how the absence of signature verification allows attackers to manipulate tokens.
-    Exploit role-based access control vulnerabilities: Modify JWTs to escalate user privileges (e.g., from user to admin).
-    Learn how to secure JWT implementations: Understand the importance of verifying JWTs and securely managing user roles.
+- Identify JWT-related security flaws: Understand how the absence of signature verification allows attackers to manipulate tokens.
+- Exploit role-based access control vulnerabilities: Modify JWTs to escalate user privileges (e.g., from user to admin).
+- Learn how to secure JWT implementations: Understand the importance of verifying JWTs and securely managing user roles.
 
 ## Disclaimer: 
 
