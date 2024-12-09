@@ -58,3 +58,7 @@ coverage-final.json
 *.class
 *.pyc
 
+
+# Ignore the migrations directory
+**/migrations/
+**/migrations/**/__pycache__/
