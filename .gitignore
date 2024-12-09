@@ -59,6 +59,8 @@ coverage-final.json
 *.pyc
 
 
+# Ignore the instance directory
+**/instance
+
 # Ignore the migrations directory
-**/migrations/
-**/migrations/**/__pycache__/
+**/migrations
