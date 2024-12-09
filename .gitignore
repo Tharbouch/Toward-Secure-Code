@@ -13,6 +13,7 @@ venv/
 Pipfile.lock
 
 # Sensitive files (API keys, credentials)
+.venv
 .env
 *.env
 *.key
@@ -41,8 +42,6 @@ security-reports/
 *.out
 *.pid
 
-# Ignore all unsecured files 
-unsecure/
 
 # Ignore test coverage output
 coverage/
