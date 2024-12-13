@@ -45,18 +45,22 @@ def login():
         return jsonify({'access_token': access_token}), 200
     return jsonify({'message': 'Invalid credentials'}), 401
 
-# Vulnerable Endpoint: View or update order details without checking if the order belongs to current user
+# Secure Endpoint: View or update order details require checking if the order belongs to current user
 @app.route('/api/orders/<int:order_id>', methods=['GET', 'PUT'])
 @jwt_required()
 def manage_order(order_id):
-
-    # Vulnerability: We do not verify that the order belongs to the current user!
+    
+    current_user_id = get_jwt_identity()
+    
     order = Order.query.get(order_id)
     if not order:
         return jsonify({'message': 'Order not found'}), 404
 
+    if current_user_id != order.user_id:
+        return jsonify({'message': 'Unauthorized'}),401
+    
     if request.method == 'GET':
-        # Any authenticated user can view this order, regardless of who owns it
+    # Only order owner can view this order 
         order_data = {
             'id': order.id,
             'item_name': order.item_name,
@@ -69,7 +73,7 @@ def manage_order(order_id):
         return jsonify(order_data), 200
 
     if request.method == 'PUT':
-        # Any authenticated user can update this order simply by knowing the order_id
+        # Only order owner can update this order
         data = request.get_json()
         order.shipping_address = data.get('shipping_address', order.shipping_address)
         order.payment_status = data.get('payment_status', order.payment_status)
@@ -80,12 +84,12 @@ def manage_order(order_id):
 @app.route('/api/orders', methods=['POST'])
 @jwt_required()
 def create_order():
-    current_user_id = get_jwt_identity()  # Convert the identity to integer
+    current_user_id = get_jwt_identity()
     data = request.get_json()
     new_order = Order(
         item_name=data.get('item_name'),
         quantity=data.get('quantity', 1),
-        price=data.get('price', 0.0) ,
+        price=data.get('price', 0.0),
         shipping_address=data.get('shipping_address', 'N/A'),
         payment_status=data.get('payment_status', 'Pending'),
         user_id=current_user_id
