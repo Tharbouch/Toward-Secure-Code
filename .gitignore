@@ -22,6 +22,7 @@ Pipfile.lock
 # Build artifacts
 dist/
 build/
+uploads/
 coverage/
 .DS_Store  # MacOS generated files
 Thumbs.db  # Windows generated files
