@@ -54,5 +54,9 @@ flask db upgrade
 ###  Run the Application
 
 Start the Flask development server:
-
+```bash
 python app.py
+```
+
+## Disclaimer:
+This lab is for educational purposes only. It is a deliberately vulnerable application designed to demonstrate common security pitfalls. Do not deploy this application in production environments.
