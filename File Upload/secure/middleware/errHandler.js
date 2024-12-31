@@ -18,6 +18,7 @@ function errHandler(err, req, res, next) {
             'Invalid file extension!': 'Invalid file type',
             'Invalid MIME type!': 'Invalid file type',
             'File type not allowed!': 'Invalid file type',
+            'Potential path traversal attack detected':'Invalid path',
             'Could not process file type!': 'Server error: Unable to process file.',
         };
 

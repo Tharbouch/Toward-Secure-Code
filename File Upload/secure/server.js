@@ -7,7 +7,7 @@ import { dirname } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import sharp from 'sharp';
 import { fileTypeFromBuffer } from 'file-type';
-import {multerInstance,allowedMimeTypes} from './config/multerConfig.js';
+import {multerInstance,allowedMimeTypes,preventPathTraversal} from './config/multerConfig.js';
 import errHandler from './middleware/errHandler.js';
 const app = express();
 
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 // Ensure the upload directory exists
 const uploadDirectory = path.join(__dirname, 'uploads', 'avatars');
 if (!fs.existsSync(uploadDirectory)) {
-    fs.mkdirSync(uploadDirectory, { recursive: true });
+    fs.mkdirSync(uploadDirectory, { recursive: true,mode: 0o755 });
 }
 
 
@@ -65,6 +65,13 @@ app.post('/upload-avatar', multerInstance.single('avatar'), async(req, res, next
 
     // Define the final path
     const finalPath = path.join(uploadDirectory, uniqueName);
+
+    // Checking Path Travesal, even Multer's built-in protection is good because we used memoryStorage()
+    if (!preventPathTraversal(finalPath, uploadDirectory)) {
+        const error = new Error('Potential path traversal attack detected');
+        error.statusCode = 400;
+        return next(error)
+    }
 
     // removes metadata
     const processedBuffer = await sharp(req.file.buffer).withMetadata(false) .toBuffer();
