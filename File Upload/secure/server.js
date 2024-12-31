@@ -66,7 +66,7 @@ app.post('/upload-avatar', multerInstance.single('avatar'), async(req, res, next
     // Define the final path
     const finalPath = path.join(uploadDirectory, uniqueName);
 
-    // Checking Path Travesal, even Multer's built-in protection is good because we used memoryStorage()
+    // Checking Path traversal, even Multer's built-in protection is good because we used memoryStorage()
     if (!preventPathTraversal(finalPath, uploadDirectory)) {
         const error = new Error('Potential path traversal attack detected');
         error.statusCode = 400;
